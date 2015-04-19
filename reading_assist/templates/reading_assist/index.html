@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <h3>Documents</h3>
+    <h3 class="page-header">Documents</h3>
     <table id="documents" class="table">
         <thead>
             <tr>
@@ -24,8 +24,9 @@
             {% endfor %}
         </tbody>
     </table>
+    <a href="{% url 'reading:new' %}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> New document</a>
 
-    <h3>Vocab lists</h3>
+    <h3 class="page-header">Vocab lists</h3>
     <table id="lists" class="table">
         <thead>
             <tr>

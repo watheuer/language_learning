@@ -15,9 +15,9 @@
                 {{ document.body | linebreaks }}
             </div>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" id="vocab-wrapper">
             <h4>Vocab List</h4>
-            <div id="vocab"></div>
+            <div id="vocab">Click on a word to add it to the vocab list.</div>
         </div>
     </div>
 
@@ -68,7 +68,7 @@
         });
 
         function renderVocabList(list){
-            var numList = $("<ul></ul>");
+            var numList = $("<ol></ol>");
             for(var i = 0; i < list.length; i++){
                 numList.append('<li>' + list[i] + '</li>');
 
@@ -77,7 +77,7 @@
         }
 
         function stripPunctuation(str){
-            return str.replace(/[\.,:;!]/g, "");
+            return str.replace(/[\.,:;\(\)!]/g, "");
         }
     </script>
 {% endblock %}

@@ -1,0 +1,13 @@
+#document-body {
+    font-size: 16px;
+}
+
+#vocab-wrapper {
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+span {
+    cursor: pointer;
+}

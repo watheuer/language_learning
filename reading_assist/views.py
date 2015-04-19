@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from models import Document, Word, VocabList
 
 
@@ -33,3 +33,17 @@ def vocab_list(request, pk):
     }
 
     return render(request, 'reading_assist/vocab.html', context)
+
+
+def new(request):
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        body = request.POST.get('body')
+
+        document = Document(title=title, body=body)
+        document.save()
+
+        return redirect('reading:index')
+
+    return render(request, 'reading_assist/new.html', {})
