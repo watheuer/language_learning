@@ -1,0 +1,83 @@
+{% extends "reading_assist/base.html" %}
+
+{% block title %}{{ document.title }}{% endblock %}
+
+{% block navbar %}
+    <li><a href="{% url 'reading:index' %}">Index</a></li>
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-header">{{ document.title }}</h2>
+
+    <div class="row">
+        <div class="col-sm-10">
+            <div id="document-body">
+                {{ document.body | linebreaks }}
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <h4>Vocab List</h4>
+            <div id="vocab"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        var selected;
+        var vocabList = [];
+
+        //http://stackoverflow.com/questions/12591073/split-all-text-inside-dom-element-into-span
+        $('#document-body > *').each(function(){
+            var text = $(this).html().split(' '),
+                    len = text.length,
+                    result = [];
+            for(var i=0; i<len; i++ ) {
+                result[i] = '<span data-toggle="popover" title= ' + stripPunctuation(text[i]) + '>' + text[i] + '</span>';
+            }
+            $(this).html(result.join(' '));
+        });
+
+        $('span').click(function(ev){
+            ev.preventDefault();
+
+            if(!$(this).attr('data-content')){
+                $(this).popover({
+                    content: "this is the definition!",
+                    placement: "top",
+                    trigger: ""
+                });
+            }
+
+            // If you're clicking the selected one again, just toggle it
+            if(selected && $(this)[0] === selected[0]){
+                $(this).popover('toggle');
+            } else {
+                if(selected) selected.popover('hide');
+                $(this).popover('show');
+                selected = $(this);
+
+            }
+
+            // If item not in vocab list, add it
+            var word = stripPunctuation($(this).html());
+            if(vocabList.indexOf(word) == -1)
+                vocabList.push(word);
+            renderVocabList(vocabList);
+        });
+
+        function renderVocabList(list){
+            var numList = $("<ul></ul>");
+            for(var i = 0; i < list.length; i++){
+                numList.append('<li>' + list[i] + '</li>');
+
+            }
+            $("#vocab").html(numList.html());
+        }
+
+        function stripPunctuation(str){
+            return str.replace(/[\.,:;!]/g, "");
+        }
+    </script>
+{% endblock %}

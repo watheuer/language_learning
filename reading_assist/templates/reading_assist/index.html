@@ -3,9 +3,45 @@
 {% block title %}Reading Assist Index{% endblock %}
 
 {% block navbar %}
-    <li class="active"><a href="#">Index</a></li>
+    <li class="active"><a href="{% url 'reading:index' %}">Index</a></li>
 {% endblock %}
 
 {% block content %}
-    Here's some content!
+    <h3>Documents</h3>
+    <table id="documents" class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in documents %}
+                <tr>
+                    <td><a href={% url 'reading:document' document.id %}>{{ document.title }}</a></td>
+                    <td>{{ document.created }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Vocab lists</h3>
+    <table id="lists" class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Document</th>
+                <th>Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for list in lists %}
+                <tr>
+                    <td><a href={% url 'reading:vocab_list' list.id %}>{{ list.title }}</a></td>
+                    <td>{{ list.document }}</td>
+                    <td>{{ list.created }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}
