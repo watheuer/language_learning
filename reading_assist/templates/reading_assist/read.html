@@ -10,14 +10,23 @@
     <h2 class="page-header">{{ document.title }}</h2>
 
     <div class="row">
-        <div class="col-sm-10">
+        <div class="col-sm-9">
             <div id="document-body">
                 {{ document.body | linebreaks }}
             </div>
         </div>
-        <div class="col-sm-2" id="vocab-wrapper">
-            <h4>Vocab List</h4>
-            <div id="vocab">Click on a word to add it to the vocab list.</div>
+        <div class="col-sm-3" id="vocab-wrapper">
+            <div id="vocab-inner" class="panel panel-default">
+                <div class="panel-heading">
+                    <b>Vocab List</b>
+                </div>
+                <div class="panel-body">
+                    <div id="vocab">
+                        <p>Click on a word to add it to the vocab list.</p>
+                    </div>
+                    <button id="submit-vocab" class="btn btn-success">Save list</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -67,17 +76,26 @@
             renderVocabList(vocabList);
         });
 
+        $('#vocab-inner').affix({
+            offset: 100
+        });
+
         function renderVocabList(list){
-            var numList = $("<ol></ol>");
+            var numList = $("<ul></ul>");
             for(var i = 0; i < list.length; i++){
                 numList.append('<li>' + list[i] + '</li>');
-
             }
-            $("#vocab").html(numList.html());
+            $("#vocab").html(numList);
         }
 
         function stripPunctuation(str){
-            return str.replace(/[\.,:;\(\)!]/g, "");
+            return str.replace(/[\.,:;\(\)!"'”`“]/g, "");
         }
+
+        // Fix affixed width
+        $('#vocab-inner').on('affixed.bs.affix', function() {
+            var $affixElement = $(this);
+            $affixElement.width($affixElement.parent().width());
+        });
     </script>
 {% endblock %}
