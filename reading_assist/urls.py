@@ -9,5 +9,6 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^document/(?P<pk>[0-9]+)$', views.document, name='document'),
     url(r'^list/(?P<pk>[0-9]+)$', views.vocab_list, name='vocab_list'),
-    url(r'^new', views.new, name='new')
+    url(r'^new', views.new, name='new'),
+    url(r'^data/word', views.get_definitions, name='get_definition')
 )

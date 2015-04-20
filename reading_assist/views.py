@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Document, Word, VocabList
+from definitions import definition
+import json
 
 
 def index(request):
@@ -36,7 +38,6 @@ def vocab_list(request, pk):
 
 
 def new(request):
-
     if request.method == 'POST':
         title = request.POST.get('title')
         body = request.POST.get('body')
@@ -47,3 +48,15 @@ def new(request):
         return redirect('reading:index')
 
     return render(request, 'reading_assist/new.html', {})
+
+
+# TODO: error checking
+def get_definitions(request):
+    word = request.GET.get('word')
+    definitions = definition(word)
+    response_data = {}
+
+    for i in range(len(definitions)):
+        response_data[i] = definitions[i]
+
+    return HttpResponse(json.dumps(response_data), content_type='application/json')
