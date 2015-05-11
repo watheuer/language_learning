@@ -39,3 +39,12 @@ class VocabList(models.Model):
 
     def __unicode__(self):
         return self.title + ' from ' + str(self.created.date())
+
+
+class Definition(models.Model):
+    word = models.ForeignKey(Word)
+    text = models.TextField(null=True, blank=True)
+    pos = models.CharField(max_length=8)
+
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)

@@ -9,12 +9,14 @@
 {% block content %}
     <h2 class="page-header">Vocab list: {{ list.title }}</h2>
 
+    <ol>
     {% for word in list.words.all %}
-        <p>
-            <b>{{ forloop.counter }}. {{ word }}</b> -
-            {% if word.definition1 %}{{ word.definition1 }}; {% endif %}
-            {% if word.definition2 %}{{ word.definition2 }}; {% endif %}
-            {% if word.definition3 %}{{ word.definition3 }}{% endif %}
-        </p>
+        <li style="margin-top: 10px;">
+            <b>{{ word }}</b> -
+            {% if word.definition1 %}{{ word.definition1 }} {% endif %}
+            {% if word.definition2 %}<br>{{ word.definition2 }} {% endif %}
+            {% if word.definition3 %}<br>{{ word.definition3 }}{% endif %}
+        </li>
     {% endfor %}
+    </ol>
 {% endblock %}

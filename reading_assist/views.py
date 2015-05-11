@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from models import Document, Word, VocabList
@@ -7,7 +8,8 @@ import json
 
 def index(request):
     documents = Document.objects.all()
-    lists = VocabList.objects.filter(user=request.user)
+    user = User.objects.get(id=request.user.id)
+    lists = VocabList.objects.filter(user=user)
 
     context = {
         'documents': documents,
@@ -55,6 +57,15 @@ def get_definitions(request):
     word = request.GET.get('word')
     definitions = definition(word)
     response_data = {}
+
+    new_word = Word(text=word)
+    if len(definitions) >= 1:
+        new_word.definition1 = definitions[0]
+    if len(definitions) >= 2:
+        new_word.definition2 = definitions[1]
+    if len(definitions) >= 3:
+        new_word.definition3 = definitions[2]
+    new_word.save()
 
     for i in range(len(definitions)):
         response_data[i] = definitions[i]
